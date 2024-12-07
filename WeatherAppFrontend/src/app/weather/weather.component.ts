@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { WeatherService } from './weather.service';
 
 @Component({
   selector: 'app-weather',
@@ -8,26 +8,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WeatherComponent {
   city: string = '';
-  weatherData: any;
+  weatherData: any = null;
+  loading: boolean = false;
   errorMessage: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private weatherService: WeatherService) {}
 
   getWeather() {
-    if (!this.city) {
-      this.errorMessage = 'Please enter a city.';
-      return;
+    this.errorMessage = '';
+    if (this.city) {
+      this.loading = true;
+      this.weatherService.getWeather(this.city).subscribe(
+        (data: any) => {
+          this.weatherData = data;
+          this.loading = false;
+        },
+        (err: any) => {
+          this.errorMessage = err.error?.message || 'An error occurred while fetching weather data.';
+          this.loading = false;
+        }
+      );
     }
-
-    this.http.get(`https://your-api-url/api/weather/${this.city}`).subscribe(
-      (data) => {
-        this.weatherData = data;
-        this.errorMessage = '';
-      },
-      (error) => {
-        this.errorMessage = 'Error fetching weather data. Please try again.';
-        this.weatherData = null;
-      }
-    );
   }
 }
+

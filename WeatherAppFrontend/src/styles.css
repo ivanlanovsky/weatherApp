@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+.p-button-active {
+    background-color: #007bff !important;  /* Adjust the active button color */
+    border-color: #007bff !important;
+  }
+  
+  /* Optional: Styling for toolbar background */
+  .p-toolbar {
+    background-color: #343a40;  /* Dark background for the toolbar */
+    color: white;
+    padding: 10px 20px;  /* Padding for the toolbar */
+  }
+  
+  /* Optional: Styling for the title in the toolbar */
+  .p-toolbar .p-toolbar-group-left h1 {
+    font-size: 24px;
+    color: #ffffff;
+    margin: 0;
+  }
+  
+  /* Optional: Button Styling */
+  .p-button {
+    margin-right: 10px;
+  }
+  
+  /* Optional: Add hover effect to buttons */
+  .p-button:hover {
+    background-color: #0056b3 !important; /* Button color on hover */
+  }

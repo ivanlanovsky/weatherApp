@@ -2,6 +2,7 @@
 using WeatherApp.Services;
 using WeatherApp.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using WeatherApp.Models;
 
 namespace WeatherApp.Controllers
 {
@@ -25,7 +26,14 @@ namespace WeatherApp.Controllers
             {
                 var weatherData = _dbContext.WeatherHistory
                     .Include(w => w.WeatherData)
-                    .OrderByDescending(w => w.Date).Take(count).ToList();
+                    .OrderByDescending(w => w.Date).Take(count)
+                    .Select(w => new WeatherHistoryData()
+                    {
+                        City = w.City,
+                        Date = w.Date,
+                        WeatherData = $"Temp:{w.WeatherData.Temperature}, hum:{w.WeatherData.Humidity}, desc:{w.WeatherData.Description}"
+                    })
+                    .ToList();
                 return Ok(weatherData);
             }
             catch (Exception ex)

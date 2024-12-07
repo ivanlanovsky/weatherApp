@@ -1,1 +1,26 @@
-<p>weather works!</p>
+<div class="p-fluid">
+    <h2>Weather Request</h2>
+      <div class="weather-container">
+        <div class="p-fluid">
+          <div class="p-grid p-align-center">
+            <div class="p-col">
+              <input type="text" pInputText placeholder="Enter City" [(ngModel)]="city" />
+            </div>
+      
+            <div class="p-col">
+              <button pButton label="Get Weather" icon="pi pi-cloud" (click)="getWeather()" class="get-weather-button"></button>
+            </div>
+          </div>
+        </div>
+      </div>      
+    <div *ngIf="errorMessage" class="error-message">
+        <p-message severity="error" text="{{ errorMessage }}"></p-message>
+    </div>
+    <div *ngIf="weatherData" class="p-mt-3">
+      <h3>Weather for {{ weatherData.city }}</h3>
+      <p>Temperature: {{ weatherData.temperature }}°C</p>
+      <p>Humidity: {{ weatherData.humidity }}%</p>
+      <p>Description: {{ weatherData.description }}</p>
+    </div>
+  </div>
+  
