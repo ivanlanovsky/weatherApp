@@ -1,16 +1,14 @@
 .p-button-active {
-    background-color: #007bff !important;  /* Adjust the active button color */
+    background-color: #007bff !important; 
     border-color: #007bff !important;
   }
   
-  /* Optional: Styling for toolbar background */
   .p-toolbar {
-    background-color: #343a40;  /* Dark background for the toolbar */
+    background-color: #343a40; 
     color: white;
-    padding: 10px 20px;  /* Padding for the toolbar */
+    padding: 10px 20px; 
   }
   
-  /* Optional: Styling for the title in the toolbar */
   .p-toolbar .p-toolbar-group-left h1 {
     font-size: 24px;
     color: #ffffff;
@@ -22,7 +20,7 @@
     margin-right: 10px;
   }
   
-  /* Optional: Add hover effect to buttons */
+  
   .p-button:hover {
-    background-color: #0056b3 !important; /* Button color on hover */
+    background-color: #0056b3 !important; 
   }

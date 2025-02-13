@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using WeatherApp.DbContexts;
 using WeatherApp.Exceptions;
+using WeatherApp.Extentions;
 using WeatherApp.Models;
 
 namespace WeatherApp.Services
@@ -40,13 +41,7 @@ namespace WeatherApp.Services
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var weatherData = JsonConvert.DeserializeObject<WeatherApiData>(responseBody);
 
-                var weatherResult = new WeatherData
-                {
-                    City = city,
-                    Temperature = weatherData.Main.Temp,
-                    Humidity = weatherData.Main.Humidity,
-                    Description = weatherData.Weather[0].Description,
-                };
+                var weatherResult = weatherData.ToWeatherDto();
                 _dbContext.WeatherResults.Add(weatherResult);
                 await _dbContext.SaveChangesAsync();
 
