@@ -1,0 +1,12 @@
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+      <h1>Weather App</h1>
+    </div>
+    
+    <div class="p-toolbar-group-left">
+      <p-button icon="pi pi-cloud" label="Weather Request" routerLink="/weather" routerLinkActive="active"></p-button>
+      <p-button icon="pi pi-history" label="Weather History" routerLink="/history" routerLinkActive="active"></p-button>
+      <p-button *ngIf="!isLoggedIn" icon="pi pi-login" label="Login" (onClick)="login()"></p-button>
+      <p-button *ngIf="isLoggedIn" icon="pi pi-logout" label="Logout" (onClick)="logout()"></p-button>
+    </div>
+  </p-toolbar>

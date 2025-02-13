@@ -12,15 +12,17 @@ import { WeatherService } from './weather/weather.service';
 import { WeatherHistoryService } from './history/history.service';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button'; 
-import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { AuthService } from './services/auth.service';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     WeatherComponent,
-    HistoryComponent
+    HistoryComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,7 @@ import { MessageModule } from 'primeng/message';
     ToolbarModule,   // Add Toolbar module
     ButtonModule
   ],
-  providers: [WeatherService, WeatherHistoryService], 
+  providers: [WeatherService, WeatherHistoryService, AuthService], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
