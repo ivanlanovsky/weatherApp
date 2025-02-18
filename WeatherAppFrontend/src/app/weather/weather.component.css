@@ -19,4 +19,13 @@
   .weather-data {
     margin-top: 1rem;
   }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  input[matInput] {
+    color: grey;
+  }
   

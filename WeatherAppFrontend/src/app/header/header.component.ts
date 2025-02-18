@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ToolbarModule } from 'primeng/toolbar';
 import { AuthService } from '../services/auth.service';
 
 @Component({

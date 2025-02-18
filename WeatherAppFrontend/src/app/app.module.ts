@@ -4,17 +4,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
 import { WeatherComponent } from './weather/weather.component';
 import { HistoryComponent } from './history/history.component';
 import { WeatherService } from './weather/weather.service'; 
 import { WeatherHistoryService } from './history/history.service';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ButtonModule } from 'primeng/button'; 
-import { MessageModule } from 'primeng/message';
 import { AuthService } from './services/auth.service';
 import { HeaderComponent } from './header/header.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -29,13 +34,17 @@ import { HeaderComponent } from './header/header.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    MessageModule,
-    InputTextModule,
-    TableModule,
-    ToolbarModule,   // Add Toolbar module
-    ButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatTableModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCardModule,
+    MatIconModule
   ],
-  providers: [WeatherService, WeatherHistoryService, AuthService], 
+  providers: [WeatherService, WeatherHistoryService, AuthService, provideAnimationsAsync()], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

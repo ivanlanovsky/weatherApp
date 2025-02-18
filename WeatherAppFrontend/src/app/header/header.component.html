@@ -1,12 +1,20 @@
-<p-toolbar>
-    <div class="p-toolbar-group-left">
+<mat-toolbar>
+    <div>
       <h1>Weather App</h1>
     </div>
     
-    <div class="p-toolbar-group-left">
-      <p-button icon="pi pi-cloud" label="Weather Request" routerLink="/weather" routerLinkActive="active"></p-button>
-      <p-button icon="pi pi-history" label="Weather History" routerLink="/history" routerLinkActive="active"></p-button>
-      <p-button *ngIf="!isLoggedIn" icon="pi pi-login" label="Login" (onClick)="login()"></p-button>
-      <p-button *ngIf="isLoggedIn" icon="pi pi-logout" label="Logout" (onClick)="logout()"></p-button>
+    <div>
+      <button mat-icon-button label="Weather Request" routerLink="/weather" routerLinkActive="active">
+        <mat-icon>sunny</mat-icon>
+      </button>
+      <button mat-icon-button label="Weather History" routerLink="/history" routerLinkActive="active">
+        <mat-icon>history</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="!isLoggedIn" icon="pi pi-login" label="Login" (onClick)="login()">
+        <mat-icon>login</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="isLoggedIn" icon="pi pi-logout" label="Logout" (onClick)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
     </div>
-  </p-toolbar>
+  </mat-toolbar>

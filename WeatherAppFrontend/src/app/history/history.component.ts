@@ -8,6 +8,7 @@ import { WeatherHistoryService } from './history.service';
 })
 export class HistoryComponent implements OnInit {
   history: History[] = [];
+  displayedColumns: string[] = ['City', 'Date', 'Id', 'Weather'];
   errorMessage: string = "";
 
   constructor(private weatherHistoryService: WeatherHistoryService) {}

@@ -1,24 +1,49 @@
 <div class="p-fluid">
     <h2>Weather History</h2>
   
-    <p-table [value]="history" [responsive]=true>
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Date</th>
-          <th>City</th>
-          <th>Weather Data</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData>
-        <tr>
-          <td>{{ rowData.date }}</td>
-          <td>{{ rowData.city }}</td>
-          <td>{{ rowData.weatherData }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <table mat-table [dataSource]="history" class="mat-table">
+      id: number;
+    city: string;
+    date: string;
+    weatherDataId: number;
+    weatherData: string;
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element"> {{element.weatherDataId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element"> {{element.weatherData}} </td>
+      </ng-container>
+  
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
     <div *ngIf="errorMessage" class="error-message">
-        <p-message severity="error" text="{{ errorMessage }}"></p-message>
+        <mat-error>
+          {{errorMessage}}
+        </mat-error>
     </div>
   </div>
   
