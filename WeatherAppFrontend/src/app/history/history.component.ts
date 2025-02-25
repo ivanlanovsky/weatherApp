@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherHistoryService } from './history.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-history',
@@ -8,7 +9,7 @@ import { WeatherHistoryService } from './history.service';
 })
 export class HistoryComponent implements OnInit {
   history: History[] = [];
-  displayedColumns: string[] = ['City', 'Date', 'Id', 'Weather'];
+  displayedColumns: string[] = ['city', 'date', 'weather'];
   errorMessage: string = "";
 
   constructor(private weatherHistoryService: WeatherHistoryService) {}
@@ -16,11 +17,13 @@ export class HistoryComponent implements OnInit {
   ngOnInit(): void {
     this.errorMessage = "";
     this.weatherHistoryService.getHistory().subscribe(
-      (data: History[]) => {
-        this.history = data;
-      },
-      (err: any) => {
-        this.errorMessage = err.error?.message || 'An error occurred while fetching weather data.';
+      {
+        next: (data: History[]) => {
+          this.history = data;
+        },
+        error: (err: any) => {
+          this.errorMessage = err.error?.message || 'An error occurred while fetching weather data.';
+        }
       }
     );
   }
