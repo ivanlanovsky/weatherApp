@@ -1,19 +1,20 @@
-<mat-toolbar>
-    <div>
+<mat-toolbar class="header-toolbar" fxLayout="row" fxLayoutAlign="space-between center" >
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="20%">
       <h1>Weather App</h1>
-    </div>
-    
-    <div>
-      <button mat-icon-button label="Weather Request" routerLink="/weather" routerLinkActive="active">
-        <mat-icon>sunny</mat-icon>
+      <button mat-icon-button *ngIf="isLoggedIn" label="Weather Request" routerLink="/weather" routerLinkActive="active">
+        <mat-icon>cloudy</mat-icon>
       </button>
-      <button mat-icon-button label="Weather History" routerLink="/history" routerLinkActive="active">
+      <button mat-icon-button *ngIf="isLoggedIn" label="Weather History" routerLink="/history" routerLinkActive="active">
         <mat-icon>history</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isLoggedIn" icon="pi pi-login" label="Login" (onClick)="login()">
+    </div>
+    
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button mat-icon-button *ngIf="!isLoggedIn" matTooltipPosition="right" matTooltipShowDelay="200"
+        matTooltipHideDelay="100" matTooltip="Login" (click)="login()">
         <mat-icon>login</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="isLoggedIn" icon="pi pi-logout" label="Logout" (onClick)="logout()">
+      <button mat-icon-button *ngIf="isLoggedIn" matTooltip="Logout" (click)="logout()">
         <mat-icon>logout</mat-icon>
       </button>
     </div>

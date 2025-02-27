@@ -20,6 +20,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule,
+    FlexLayoutModule
   ],
   providers: [WeatherService, WeatherHistoryService, AuthService, provideAnimationsAsync()], 
   bootstrap: [AppComponent]

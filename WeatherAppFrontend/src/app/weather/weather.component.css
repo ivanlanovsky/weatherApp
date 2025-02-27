@@ -1,4 +1,7 @@
-.weather-form {
+  .weather-body{
+    padding: 0 1cm;
+  }
+  .weather-form {
     margin-bottom: 1rem;
   }
   

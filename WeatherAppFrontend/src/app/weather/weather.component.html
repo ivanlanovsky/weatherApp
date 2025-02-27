@@ -1,24 +1,20 @@
-<div class="">
+<div class="weather-body">
     <h2>Weather Request</h2>
       <div class="weather-container">
-        <div class="">
-          <div class="">
-            <div class="">
-              <mat-form-field>
-                <mat-label>Enter the city</mat-label>
-                <input matInput type="text" placeholder="City" [(ngModel)]="city" />
-              <button mat-raised-button 
-                label="Get Weather" 
-                (click)="getWeather()" 
-                class="get-weather-button">
-                  Get weather
-                  <mat-icon>search</mat-icon>
-                </button>
-              </mat-form-field>
-            </div>
+        <mat-form-field fxFlex="50%">
+          
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+            <input matInput type="text" placeholder="City" [(ngModel)]="city" fxFlex/>
+            <button mat-raised-button 
+              label="Get Weather" 
+              (click)="getWeather()" 
+              class="get-weather-button">
+                Get weather
+                <mat-icon>search</mat-icon>
+            </button>
           </div>
-        </div>
-      </div>      
+        </mat-form-field>
+      </div>    
     <div *ngIf="errorMessage" class="error-message">
         <mat-card class="error-message">
           <mat-card-header>
