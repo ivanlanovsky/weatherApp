@@ -1,0 +1,38 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-card {
+    width: 350px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .login-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  mat-card-actions {
+    margin-top: 10px;
+  }
+  
+  .forgot-password {
+    color: red;
+    text-decoration: none;
+  }
+  
+  .sign-up {
+    color: blue;
+    text-decoration: none;
+  }
+  
+  

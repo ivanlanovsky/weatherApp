@@ -10,8 +10,8 @@
     </div>
     
     <div fxLayout="row" fxLayoutAlign="end center">
-      <button mat-icon-button *ngIf="!isLoggedIn" matTooltipPosition="right" matTooltipShowDelay="200"
-        matTooltipHideDelay="100" matTooltip="Login" (click)="login()">
+      <button mat-icon-button *ngIf="!isLoggedIn" routerLink="/login" matTooltipPosition="right" matTooltipShowDelay="200"
+        matTooltipHideDelay="100" matTooltip="Login">
         <mat-icon>login</mat-icon>
       </button>
       <button mat-icon-button *ngIf="isLoggedIn" matTooltip="Logout" (click)="logout()">
