@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,18 +8,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  loginForm: FormGroup;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.loginForm = new FormGroup(
+      {
+        email: new FormControl("", [Validators.email, Validators.required]),
+        password: new FormControl("", [Validators.required])
+      }
+    );
+  }
 
   onLogin() {
-    if (this.email === 'admin@example.com' && this.password === 'password123') {
-      alert('Login Successful!');
-      this.router.navigate(['/dashboard']); // Navigate to dashboard after login
-    } else {
-      alert('Invalid email or password. Please try again.');
-    }
+    var email = this.loginForm.controls['email'].value;
+    var password = this.loginForm.controls['password'].value;
   }
 }
 
