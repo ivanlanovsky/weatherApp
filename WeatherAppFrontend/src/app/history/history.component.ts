@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherHistoryService } from './history.service';
+import { WeatherHistoryService } from '../services/history.service';
 import { of } from 'rxjs';
 
 @Component({
