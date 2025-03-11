@@ -2,7 +2,7 @@
 using WeatherApp.Services;
 using WeatherApp.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using WeatherApp.Models;
+using WeatherApp.DTO;
 
 namespace WeatherApp.Controllers
 {

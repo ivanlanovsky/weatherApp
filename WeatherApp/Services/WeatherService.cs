@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WeatherApp.DbContexts;
+using WeatherApp.DTO;
 using WeatherApp.Exceptions;
 using WeatherApp.Extentions;
 using WeatherApp.Models;

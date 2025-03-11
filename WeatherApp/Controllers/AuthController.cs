@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using WeatherApp.DTO;
 using WeatherApp.Exceptions;
-using WeatherApp.Models;
 using WeatherApp.Services;
 
 namespace WeatherApp.Controllers

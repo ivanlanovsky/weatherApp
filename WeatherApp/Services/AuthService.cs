@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeatherApp.DbContexts;
+using WeatherApp.DTO;
 using WeatherApp.Models;
 
 namespace WeatherApp.Services
 {
     internal class AuthService : IAuthService
     {
-        private readonly UserDbContext _dbContext;
+        private readonly WeatherDbContext _dbContext;
         private readonly IConfiguration _configuration;
 
-        public AuthService(UserDbContext userDbContext, IConfiguration configuration) {
+        public AuthService(WeatherDbContext userDbContext, IConfiguration configuration) {
             _dbContext = userDbContext;
             _configuration = configuration;
         }

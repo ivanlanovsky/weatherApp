@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using WeatherApp.DTO;
 using WeatherApp.Models;
 
 namespace WeatherApp.Extentions

@@ -1,4 +1,4 @@
-﻿namespace WeatherApp.Models
+﻿namespace WeatherApp.DTO
 {
     public class WeatherApiData
     {

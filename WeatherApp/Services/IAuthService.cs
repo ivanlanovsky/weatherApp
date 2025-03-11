@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using WeatherApp.DTO;
 using WeatherApp.Models;
 
 namespace WeatherApp.Services
