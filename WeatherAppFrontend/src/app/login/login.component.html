@@ -26,5 +26,10 @@
         <a href="#" class="sign-up">Sign Up</a>
       </mat-card-actions>
     </mat-card>
+    <mat-card *ngIf="errorMessage">
+      <mat-card-content>
+        {{errorMessage}}
+      </mat-card-content>
+    </mat-card>
   </div>
   

@@ -11,7 +11,7 @@ import { Credentials } from '../models/credentials.model';
 export class AuthService {
   private _currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   private _isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private authUrl = 'https://localhost:7150/api/login';
+  private authUrl = 'https://localhost:7150/api/auth';
 
   constructor(private http: HttpClient) {}
 
@@ -19,8 +19,8 @@ export class AuthService {
     return this._currentUserSubject.asObservable();
   }
 
-  get isLoggedIn(): Observable<boolean> {
-    return this._isLoggedInSubject.asObservable();
+  get isLoggedIn(): boolean {
+    return this._isLoggedInSubject.value
   }
 
   login(credentials: Credentials): Observable<User> {
