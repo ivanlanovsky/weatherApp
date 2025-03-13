@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WeatherApp.Common;
 using WeatherApp.DbContexts;
 using WeatherApp.Services;
 
@@ -8,6 +9,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+builder.Services.AddAuthentication().AddCookie(StringConstants.WeatherAppAuth, options =>
+{
+    options.Cookie.Name = StringConstants.WeatherAppAuth;
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+});
 
 builder.Services.AddDbContext<WeatherDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

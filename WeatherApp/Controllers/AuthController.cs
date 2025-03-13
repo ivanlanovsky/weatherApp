@@ -3,6 +3,7 @@ using System.Net;
 using WeatherApp.DTO;
 using WeatherApp.Exceptions;
 using WeatherApp.Services;
+using WeatherApp.Models;
 
 namespace WeatherApp.Controllers
 {
@@ -24,7 +25,7 @@ namespace WeatherApp.Controllers
         {
             try
             {
-                var user = await _authService.Authenticate(credentials);
+                var user = await _authService.Authenticate(credentials, HttpContext);
                 if (user == null)
                 {
                     return Unauthorized(new { error = "Incorrect password or email" });

@@ -6,6 +6,6 @@ namespace WeatherApp.Services
 {
     public interface IAuthService
     {
-        Task<User?> Authenticate(UserCredentials credentials);
+        Task<User?> Authenticate(UserCredentials credentials, HttpContext context);
     }
 }
