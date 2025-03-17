@@ -10,10 +10,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
-builder.Services.AddAuthentication().AddCookie(StringConstants.WeatherAppAuth, options =>
+builder.Services.AddAuthentication(StringConstants.WeatherAppAuth).AddCookie(StringConstants.WeatherAppAuth, options =>
 {
     options.Cookie.Name = StringConstants.WeatherAppAuth;
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    options.Cookie.SameSite = SameSiteMode.None;
 });
 
 builder.Services.AddDbContext<WeatherDbContext>(options =>
@@ -28,6 +29,7 @@ builder.Services.AddCors(options =>
     policy =>
     {
         policy.WithOrigins("http://localhost:4200/")
+        .AllowCredentials()
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
@@ -43,9 +45,10 @@ if (app.Environment.IsDevelopment())
 
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:4200");
-    context.Response.Headers.Add("Access-Control-Allow-Methods", "GET");
-    context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+    context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
+    context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+    context.Response.Headers.Append("Access-Control-Allow-Methods", "GET");
+    context.Response.Headers.Append("Access-Control-Allow-Headers", "Content-Type");
     if (context.Request.Method == "OPTIONS")
     {
         context.Response.StatusCode = 200;
@@ -59,6 +62,7 @@ app.UseCors("AllowAngularApp");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

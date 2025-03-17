@@ -4,6 +4,7 @@ using WeatherApp.DTO;
 using WeatherApp.Exceptions;
 using WeatherApp.Services;
 using WeatherApp.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace WeatherApp.Controllers
 {
@@ -20,8 +21,9 @@ namespace WeatherApp.Controllers
             _authService = authService;
         }
 
+        [EnableCors("AllowAngularApp")]
         [HttpPost]
-        public async Task<IActionResult> Get(UserCredentials credentials)
+        public async Task<IActionResult> Post(UserCredentials credentials)
         {
             try
             {

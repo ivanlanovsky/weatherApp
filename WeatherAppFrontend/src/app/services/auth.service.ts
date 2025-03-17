@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   login(credentials: Credentials): Observable<User> {
-    return this.http.post<User>(this.authUrl, credentials).pipe(
+    return this.http.post<User>(this.authUrl, credentials, { withCredentials: true }).pipe(
       map((user: User) => {
         this._currentUserSubject.next(user);
         this._isLoggedInSubject.next(true);

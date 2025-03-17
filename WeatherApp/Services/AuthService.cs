@@ -34,7 +34,7 @@ namespace WeatherApp.Services
 
                 var identity = new ClaimsIdentity(claims, StringConstants.WeatherAppAuth);
                 var claimsPrincipal = new ClaimsPrincipal(identity);
-                await context.SignInAsync(claimsPrincipal);
+                await context.SignInAsync(claimsPrincipal, new AuthenticationProperties() { IsPersistent = true });
             }
 
             return user;
