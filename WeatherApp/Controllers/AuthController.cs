@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using WeatherApp.DTO;
 using WeatherApp.Exceptions;
 using WeatherApp.Services;
 using WeatherApp.Models;
 using Microsoft.AspNetCore.Cors;
+using WeatherApp.DbContexts;
+using Microsoft.AspNetCore.Authorization;
+using WeatherApp.Common;
+
 
 namespace WeatherApp.Controllers
 {
@@ -14,20 +19,21 @@ namespace WeatherApp.Controllers
     {
         private readonly ILogger<AuthController> _logger;
         private readonly IAuthService _authService;
+        private readonly WeatherDbContext _dbContext;
 
-        public AuthController(ILogger<AuthController> logger, IAuthService authService)
+        public AuthController(ILogger<AuthController> logger, IAuthService authService, WeatherDbContext dbContext)
         {
             _logger = logger;
             _authService = authService;
+            _dbContext = dbContext;
         }
 
-        [EnableCors("AllowAngularApp")]
-        [HttpPost]
-        public async Task<IActionResult> Post(UserCredentials credentials)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login(UserCredentials credentials)
         {
             try
             {
-                var user = await _authService.Authenticate(credentials, HttpContext);
+                var user = await _authService.Login(credentials, HttpContext);
                 if (user == null)
                 {
                     return Unauthorized(new { error = "Incorrect password or email" });
@@ -38,6 +44,21 @@ namespace WeatherApp.Controllers
             {
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Logout(User user)
+        {
+            await _authService.Logout(HttpContext);
+            return Ok();
+        }
+
+        [Authorize(Policy = StringConstants.AdminPolicyTitle)]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetNumberOfUsers()
+        {
+            var count = await _dbContext.Users.CountAsync();
+            return Ok(count);
         }
     }
 }

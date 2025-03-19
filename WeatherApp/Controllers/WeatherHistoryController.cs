@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WeatherApp.Services;
 using WeatherApp.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using WeatherApp.DTO;
 
 namespace WeatherApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class WeatherHistoryController : ControllerBase

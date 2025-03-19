@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using WeatherApp.Common;
 using WeatherApp.DbContexts;
 using WeatherApp.Services;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,23 @@ builder.Services.AddAuthentication(StringConstants.WeatherAppAuth).AddCookie(Str
     options.Cookie.Name = StringConstants.WeatherAppAuth;
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.Cookie.SameSite = SameSiteMode.None;
+    options.LoginPath = "/api/auth/login";
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(StringConstants.AdminPolicyTitle, policy => policy.RequireUserName(StringConstants.AdminUserName));
 });
 
 builder.Services.AddDbContext<WeatherDbContext>(options =>
@@ -32,6 +51,17 @@ builder.Services.AddCors(options =>
         .AllowCredentials()
         .AllowAnyHeader()
         .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer {token}'",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
     });
 });
 

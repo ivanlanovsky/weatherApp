@@ -11,7 +11,7 @@ import { Credentials } from '../models/credentials.model';
 export class AuthService {
   private _currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   private _isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private authUrl = 'https://localhost:7150/api/auth';
+  private authUrl = 'https://localhost:7150/api/auth/';
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   login(credentials: Credentials): Observable<User> {
-    return this.http.post<User>(this.authUrl, credentials, { withCredentials: true }).pipe(
+    return this.http.post<User>(`${this.authUrl}login`, credentials, { withCredentials: true }).pipe(
       map((user: User) => {
         this._currentUserSubject.next(user);
         this._isLoggedInSubject.next(true);
@@ -34,6 +34,7 @@ export class AuthService {
   }
 
   logout() {
+    this.http.get(`${this.authUrl}logout`, { withCredentials: true });
     this._currentUserSubject.next(null);
     this._isLoggedInSubject.next(false);
   }

@@ -13,23 +13,23 @@ namespace WeatherApp.Services
         private readonly WeatherDbContext _dbContext;
         private readonly IConfiguration _configuration;
 
-        public AuthService(WeatherDbContext userDbContext, IConfiguration configuration) 
+        public AuthService(WeatherDbContext userDbContext, IConfiguration configuration)
         {
             _dbContext = userDbContext;
             _configuration = configuration;
         }
 
-        public async Task<User?> Authenticate(UserCredentials credentials, HttpContext context)
+        public async Task<User?> Login(UserCredentials credentials, HttpContext context)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(
                 (u) => u.Email == credentials.Email && u.Password == credentials.Password);
 
-            if(user != null)
+            if (user != null)
             {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
                 };
 
                 var identity = new ClaimsIdentity(claims, StringConstants.WeatherAppAuth);
@@ -38,6 +38,11 @@ namespace WeatherApp.Services
             }
 
             return user;
+        }
+
+        public async Task Logout(HttpContext context)
+        {
+            await context.SignOutAsync();
         }
     }
 }
