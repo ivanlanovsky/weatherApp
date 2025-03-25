@@ -29,16 +29,34 @@ namespace WeatherApp.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Login(UserCredentials credentials)
+        public async Task<IActionResult> LoginWithCookie(UserCredentials credentials)
         {
             try
             {
-                var user = await _authService.Login(credentials, HttpContext);
+                var user = await _authService.LoginWithCookie(credentials, HttpContext);
                 if (user == null)
                 {
                     return Unauthorized(new { error = "Incorrect password or email" });
                 }
                 return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> LoginWithJwt(UserCredentials credentials)
+        {
+            try
+            {
+                var token = await _authService.GetAuthJwtToken(credentials, HttpContext);
+                if (token == string.Empty)
+                {
+                    return Unauthorized(new { error = "Incorrect password or email" });
+                }
+                return Ok(token);
             }
             catch (Exception ex)
             {

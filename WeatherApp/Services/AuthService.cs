@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using WeatherApp.DbContexts;
 using WeatherApp.DTO;
 using WeatherApp.Models;
@@ -19,7 +22,7 @@ namespace WeatherApp.Services
             _configuration = configuration;
         }
 
-        public async Task<User?> Login(UserCredentials credentials, HttpContext context)
+        public async Task<User?> LoginWithCookie(UserCredentials credentials, HttpContext context)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(
                 (u) => u.Email == credentials.Email && u.Password == credentials.Password);
@@ -42,6 +45,31 @@ namespace WeatherApp.Services
             }
 
             return user;
+        }
+
+        public async Task<string> GetAuthJwtToken(UserCredentials credentials, HttpContext context)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(
+                (u) => u.Email == credentials.Email && u.Password == credentials.Password);
+            if (user != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Email, user.Email),
+                };
+                var secret = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("SecretKey"));
+                var key = new SymmetricSecurityKey(secret);
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    _configuration["Jwt:Issuer"],
+                    _configuration["Jwt:Issuer"],
+                    claims,
+                    expires: DateTime.Now.AddMinutes(30),
+                    signingCredentials: creds);
+                return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            return string.Empty;
         }
 
         public async Task Logout(HttpContext context)

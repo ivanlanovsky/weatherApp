@@ -6,7 +6,10 @@ namespace WeatherApp.Services
 {
     public interface IAuthService
     {
-        Task<User?> Login(UserCredentials credentials, HttpContext context);
+        Task<User?> LoginWithCookie(UserCredentials credentials, HttpContext context);
+
+        Task<string> GetAuthJwtToken(UserCredentials credentials, HttpContext context);
+
         Task Logout(HttpContext context);
 
     }
