@@ -62,8 +62,8 @@ namespace WeatherApp.Services
                 var key = new SymmetricSecurityKey(secret);
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var token = new JwtSecurityToken(
-                    _configuration["Jwt:Issuer"],
-                    _configuration["Jwt:Issuer"],
+                    "issuer",
+                    "audience",
                     claims,
                     expires: DateTime.Now.AddMinutes(30),
                     signingCredentials: creds);

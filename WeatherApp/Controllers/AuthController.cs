@@ -52,7 +52,7 @@ namespace WeatherApp.Controllers
             try
             {
                 var token = await _authService.GetAuthJwtToken(credentials, HttpContext);
-                if (token == string.Empty)
+                if (string.IsNullOrEmpty(token))
                 {
                     return Unauthorized(new { error = "Incorrect password or email" });
                 }
