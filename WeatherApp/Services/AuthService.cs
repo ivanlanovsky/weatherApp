@@ -8,6 +8,7 @@ using WeatherApp.DbContexts;
 using WeatherApp.DTO;
 using WeatherApp.Models;
 using WeatherApp.Common;
+using Azure;
 
 namespace WeatherApp.Services
 {
@@ -47,7 +48,7 @@ namespace WeatherApp.Services
             return user;
         }
 
-        public async Task<string> GetAuthJwtToken(UserCredentials credentials, HttpContext context)
+        public async Task<User> LoginWithJwt(UserCredentials credentials, HttpContext context)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(
                 (u) => u.Email == credentials.Email && u.Password == credentials.Password);
@@ -65,11 +66,17 @@ namespace WeatherApp.Services
                     "issuer",
                     "audience",
                     claims,
-                    expires: DateTime.Now.AddMinutes(30),
+                    expires: DateTime.Now.AddHours(1),
                     signingCredentials: creds);
-                return new JwtSecurityTokenHandler().WriteToken(token);
+                context.Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
+                }); 
             }
-            return string.Empty;
+            return user;
         }
 
         public async Task Logout(HttpContext context)

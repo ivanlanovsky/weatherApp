@@ -11,6 +11,6 @@ export class WeatherHistoryService {
   constructor(private http: HttpClient) {}
 
   getHistory(): Observable<History[]> {
-    return this.http.get<History[]>(this.historyUrl);
+    return this.http.get<History[]>(this.historyUrl, { withCredentials: true });
   }
 }

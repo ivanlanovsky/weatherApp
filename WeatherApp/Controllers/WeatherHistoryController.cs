@@ -4,10 +4,11 @@ using WeatherApp.Services;
 using WeatherApp.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using WeatherApp.DTO;
+using WeatherApp.Common;
 
 namespace WeatherApp.Controllers
 {
-    [Authorize]
+    [Authorize(policy: StringConstants.AdminPolicyTitle)]
     [ApiController]
     [Route("api/[controller]")]
     public class WeatherHistoryController : ControllerBase

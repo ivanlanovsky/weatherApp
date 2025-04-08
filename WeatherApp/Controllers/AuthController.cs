@@ -51,12 +51,12 @@ namespace WeatherApp.Controllers
         {
             try
             {
-                var token = await _authService.GetAuthJwtToken(credentials, HttpContext);
-                if (string.IsNullOrEmpty(token))
+                var user = await _authService.LoginWithJwt(credentials, HttpContext);
+                if (user == null)
                 {
                     return Unauthorized(new { error = "Incorrect password or email" });
                 }
-                return Ok(token);
+                return Ok(user);
             }
             catch (Exception ex)
             {

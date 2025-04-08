@@ -24,18 +24,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true,
-            ValidateAudience = true,
-            ValidateIssuer = true,
-            ValidIssuer = "issuer",
-            ValidAudience = "audience",
+            ValidateAudience = false,
+            ValidateIssuer = false,
             ClockSkew = TimeSpan.Zero,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
         };
         options.Events = new JwtBearerEvents()
         {
-            OnAuthenticationFailed = context =>
+            OnMessageReceived = context =>
             {
-                Console.WriteLine($"Token validation failed: {context.Exception.Message}");
+                // Read token from cookie
+                context.Token = context.HttpContext.Request.Cookies["jwt"];
                 return Task.CompletedTask;
             }
         };
@@ -59,11 +58,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    };
 //});
 
-builder.Services.AddAuthorization();
-//options =>
-//{
-//    options.AddPolicy(StringConstants.AdminPolicyTitle, policy => policy.RequireUserName(StringConstants.AdminUserName));
-//}
+builder.Services.AddAuthorization(
+options =>
+{
+    options.AddPolicy(StringConstants.AdminPolicyTitle, policy => policy.RequireUserName(StringConstants.AdminUserName));
+});
 
 builder.Services.AddDbContext<WeatherDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -76,16 +75,16 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowAngularApp",
     policy =>
     {
-        policy.WithOrigins("http://localhost:4200/")
+        policy.WithOrigins("http://localhost:4200")
         .AllowCredentials()
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
 });
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
         Scheme = JwtBearerDefaults.AuthenticationScheme,
@@ -94,14 +93,14 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            new OpenApiSecurityScheme
             {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                Reference = new OpenApiReference
                 {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
             },
@@ -117,21 +116,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
-    context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
-    context.Response.Headers.Append("Access-Control-Allow-Methods", "GET");
-    context.Response.Headers.Append("Access-Control-Allow-Headers", "Content-Type");
-    if (context.Request.Method == "OPTIONS")
-    {
-        context.Response.StatusCode = 200;
-        return;
-    }
-
-    await next();
-});
 
 app.UseCors("AllowAngularApp");
 

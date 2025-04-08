@@ -8,7 +8,7 @@ namespace WeatherApp.Services
     {
         Task<User?> LoginWithCookie(UserCredentials credentials, HttpContext context);
 
-        Task<string> GetAuthJwtToken(UserCredentials credentials, HttpContext context);
+        Task<User?> LoginWithJwt(UserCredentials credentials, HttpContext context);
 
         Task Logout(HttpContext context);
 
